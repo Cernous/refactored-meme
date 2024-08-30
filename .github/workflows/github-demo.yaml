@@ -11,16 +11,34 @@ jobs:
             - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
             - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
             - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-            - name: Cloning Repo
+            
+            - name: "Cloning the repo"
+              uses: actions/checkout@v4
+              with:
+                submodules: recursive
+            - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+
+            - name: "Install JQ"
+              run: sudo apt-get install -y jq
+            
+            - name: "Create repo.json"
               run: |
-                ls
+                $json_path = "./repo.json"
+                $ver = '${{github.ref_name}}'
+                $name = '${{github.repository}}'
+                $desc = 'Simple Dice Roller written in Python as a meme (idea by definition look it up!)'
+                $link = 'https://github.com/${{github.repository}}/archive/$ver.zip'
+                echo '{"Version":$ver,"Name": $name, "Install_Link": $link, "Description": $desc}' | jq '.' $json_path
+            
+            - name: "Push repo.json file into master"
+              run: |
+                git config --global user.name "Actions User"
+                git config --global user.email "actions@github.com"
                 git fetch origin master
                 git branch -f master ${{ github.sha }}
                 git checkout master
+                git add repo.json
+                git commit -m "[CI] Updating repo.json for ${{ github.ref_name }}" || true
+                git push origin master
 
-            - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-            - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-            - name: List files in the repository
-              run: |
-                ls ${{ github.workspace }}
             - run: echo "🍏 This job's status is ${{ job.status }}."
