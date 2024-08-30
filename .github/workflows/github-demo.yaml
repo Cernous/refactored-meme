@@ -23,15 +23,14 @@ jobs:
             
             - name: "Create repo.json"
               run: | 
-                echo "{ 'Version' : '$ver', 'Name' : '$name', 'Install_Link' : '$link', 'Description' : '$desc' }" > $json_path
-                jq '.' $json_path
+                echo '{ "Version" : "'"$Ver"'", "Name" : "'"$Name"'", "Install_Link" : "'"$Link"'", "Description" : "'"$Desc"'" }'' | jq . > $Json_Path
               env:
-                json_path: "repo.json"
-                ver: "${{github.ref_name}}"
-                ref: "${{github.ref}}"
-                name: "${{github.repository}}"
-                desc: "Simple Dice Roller written in Python as a meme (idea by definition look it up!)"
-                link: "https://github.com/${{github.repository}}/archive/${{github.ref}}.zip"
+                Json_Path: "repo.json"
+                Ver: "${{github.ref_name}}"
+                Ref: "${{github.ref}}"
+                Name: "${{github.repository}}"
+                Desc: "Simple Dice Roller written in Python as a meme (idea by definition look it up!)"
+                Link: "https://github.com/${{github.repository}}/archive/${{github.ref}}.zip"
             
             - name: "Push repo.json file into master"
               run: |
