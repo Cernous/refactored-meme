@@ -1,5 +1,6 @@
 name: GitHub Release Manifest Publisher
 run-name: ${{ github.actor }} is creating a manifest 🚀
+
 on: 
     release:
         types: [published]
@@ -11,8 +12,8 @@ jobs:
             - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
             - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
             - name: Cloning Repo
-              run: /usr/bin/git clone ${{github.repositoryUrl}}
-            - run: /usr/bin/git tag | head -n 1 | awk '{print "Latest Published Tag" $1}'
+              run: git clone --branch "main" http://${{github.token}}@github.com/${{ github.repository_owner }}/${{github.repository}}.git
+            - run: git tag | head -n 1 | awk '{print "Latest Published Tag" $1}'
             - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
             - name: List files in the repository
