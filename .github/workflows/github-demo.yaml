@@ -13,7 +13,7 @@ jobs:
             - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
             - name: Cloning Repo
               run: git clone --branch "main" http://${{github.token}}@github.com/${{github.repository}}.git
-            - run: git tag | head -n 1 | awk '{print "Latest Published Tag" $1}'
+            - run: cd ${{ github.workspace }} && git tag | head -n 1 | awk '{print "Latest Published Tag" $1}'
             - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
             - name: List files in the repository
