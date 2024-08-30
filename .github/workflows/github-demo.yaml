@@ -22,8 +22,8 @@ jobs:
               run: sudo apt-get install -y jq
             
             - name: "Create repo.json"
-              run: |
-                echo '{"Version":$ver,"Name": $name, "Install_Link": $link, "Description": $desc}' >> $json_path 
+              run: | 
+                echo "{ 'Version' : '$ver', 'Name' : '$name', 'Install_Link' : '$link', 'Description' : '$desc' }" >> $json_path
                 jq '.' $json_path
               env:
                 json_path: "repo.json"
@@ -31,7 +31,7 @@ jobs:
                 ref: "${{github.ref}}"
                 name: "${{github.repository}}"
                 desc: "Simple Dice Roller written in Python as a meme (idea by definition look it up!)"
-                link: "https://github.com/$name/archive/$ref.zip"
+                link: "https://github.com/${{github.repository}}/archive/${{github.ref}}.zip"
             
             - name: "Push repo.json file into master"
               run: |
