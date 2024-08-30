@@ -13,10 +13,11 @@ jobs:
             - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
             - name: Cloning Repo
               run: |
+                ls
                 git fetch origin master
                 git branch -f master ${{ github.sha }}
                 git checkout master
-                
+
             - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
             - name: List files in the repository
