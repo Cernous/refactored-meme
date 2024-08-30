@@ -23,12 +23,12 @@ jobs:
             
             - name: "Create repo.json"
               run: |
-                json_path='repo.json'
-                ver='${{github.ref_name}}'
-                ref='${{github.ref}}'
-                name='${{github.repository}}'
-                desc='Simple Dice Roller written in Python as a meme (idea by definition look it up!)'
-                link='https://github.com/${{github.repository}}/archive/$ref.zip'
+                json_path="repo.json"
+                ver="${{github.ref_name}}"
+                ref="${{github.ref}}"
+                name="${{github.repository}}"
+                desc="Simple Dice Roller written in Python as a meme (idea by definition look it up!)"
+                link="https://github.com/${{github.repository}}/archive/$ref.zip"
                 echo '{"Version":$ver,"Name": $name, "Install_Link": $link, "Description": $desc}' >> $json_path 
                 jq '.' $json_path
             
